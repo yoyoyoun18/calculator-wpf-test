@@ -1,25 +1,16 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CalculatorAppTest
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        double currentValue = 0;
-        string currentOp = string.Empty;
-        bool isNewNumber = true;
-        List<string> expressionParts = new List<string>();
+        private List<double> numbers = new List<double>();
+        private List<string> operations = new List<string>();
+        private bool isNewNumber = true;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -28,7 +19,7 @@ namespace CalculatorAppTest
         private void numBtn_click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            if (ResultTextBox.Text == "0" || isNewNumber)
+            if (isNewNumber)
             {
                 ResultTextBox.Text = btn?.Content.ToString();
                 isNewNumber = false;
@@ -41,104 +32,102 @@ namespace CalculatorAppTest
 
         private void opBtn_click(object sender, RoutedEventArgs e)
         {
+            Button btn = sender as Button;
+            string op = btn?.Content.ToString();
+
             if (!isNewNumber)
             {
-                CalculateResult();
+                numbers.Add(double.Parse(ResultTextBox.Text));
+                operations.Add(op);
+                ExpressionTextBox.Text += ResultTextBox.Text + " " + op + " ";
+                isNewNumber = true;
             }
-
-            Button btn = sender as Button;
-            currentOp = btn?.Content.ToString();
-            isNewNumber = true;
-
-            UpdateExpressionTextBox();
+            else if (operations.Count > 0)
+            {
+                operations[operations.Count - 1] = op;
+                ExpressionTextBox.Text = ExpressionTextBox.Text.Substring(0, ExpressionTextBox.Text.Length - 2) + op + " ";
+            }
         }
 
         private void equalBtn_click(object sender, RoutedEventArgs e)
         {
-            CalculateResult();
-            currentOp = string.Empty;
-            isNewNumber = true;
-            expressionParts.Clear();
-            UpdateExpressionTextBox();
-        }
-
-        private void CalculateResult()
-        {
-            double tempNum = double.Parse(ResultTextBox.Text);
-            expressionParts.Add(tempNum.ToString());
-
-            if (currentOp != string.Empty)
+            if (!isNewNumber)
             {
-                expressionParts.Add(currentOp);
-            }
+                numbers.Add(double.Parse(ResultTextBox.Text));
+                ExpressionTextBox.Text += ResultTextBox.Text + " =";
 
-            switch (currentOp)
-            {
-                case "+":
-                    currentValue += tempNum;
-                    break;
-                case "-":
-                    currentValue -= tempNum;
-                    break;
-                case "*":
-                    currentValue *= tempNum;
-                    break;
-                case "/":
-                    if (tempNum != 0)
-                        currentValue /= tempNum;
-                    else
-                        MessageBox.Show("0으로 나눌 수 없습니다.");
-                    break;
-                default:
-                    currentValue = tempNum;
-                    break;
-            }
+                double result = numbers[0];
+                for (int i = 0; i < operations.Count; i++)
+                {
+                    switch (operations[i])
+                    {
+                        case "+":
+                            result += numbers[i + 1];
+                            break;
+                        case "-":
+                            result -= numbers[i + 1];
+                            break;
+                        case "*":
+                            result *= numbers[i + 1];
+                            break;
+                        case "/":
+                            if (numbers[i + 1] != 0)
+                                result /= numbers[i + 1];
+                            else
+                                MessageBox.Show("0으로 나눌 수 없습니다.");
+                            break;
+                    }
+                }
 
-            ResultTextBox.Text = currentValue.ToString();
+                ResultTextBox.Text = result.ToString();
+                numbers.Clear();
+                operations.Clear();
+                isNewNumber = true;
+            }
         }
-        private void UpdateExpressionTextBox()
-        {
-            ExpressionTextBox.Text = string.Join(" ", expressionParts) + (currentOp != string.Empty ? " " + currentOp : "");
-        }
+
         private void dotBtn_click(object sender, RoutedEventArgs e)
         {
-            if (ResultTextBox.Text.Contains("."))
-            {
-                return;
-            }
-            else
+            if (!ResultTextBox.Text.Contains("."))
             {
                 ResultTextBox.Text += ".";
+                isNewNumber = false;
             }
         }
 
         private void plusMinusBtn_click(object sender, RoutedEventArgs e)
         {
-            ResultTextBox.Text = (-double.Parse(ResultTextBox.Text)).ToString();
+            if (double.TryParse(ResultTextBox.Text, out double number))
+            {
+                ResultTextBox.Text = (-number).ToString();
+            }
         }
 
-        // 입력 값 초기화 버튼 ce 클릭 함수
         private void ceBtn_click(object sender, RoutedEventArgs e)
         {
             ResultTextBox.Text = "0";
+            isNewNumber = true;
         }
 
-        //전체 계산 기록 초기화 버튼 c 클릭 함수
         private void cBtn_Click(object sender, RoutedEventArgs e)
         {
             ExpressionTextBox.Text = "";
             ResultTextBox.Text = "0";
-            currentValue = 0;
-            currentOp = string.Empty;
+            numbers.Clear();
+            operations.Clear();
             isNewNumber = true;
-            expressionParts.Clear();
         }
-        //백스페이스 버튼 클릭 함수
+
         private void backspaceBtn_click(object sender, RoutedEventArgs e)
         {
-           ResultTextBox.Text = ResultTextBox.Text.Remove(ResultTextBox.Text.Length - 1);
-            if (ResultTextBox.Text.Length == 0) {
+            if (ResultTextBox.Text.Length > 1)
+            {
+                ResultTextBox.Text = ResultTextBox.Text.Substring(0, ResultTextBox.Text.Length - 1);
+            }
+            else
+            {
                 ResultTextBox.Text = "0";
+                isNewNumber = true;
             }
         }
     }
