@@ -43,7 +43,7 @@ namespace CalculatorAppTest
             saved = double.Parse(ResultTextBox.Text);
             Button btn = sender as Button;  
             op = btn?.Content.ToString();
-            InputTextBox.Text = saved + " " + op;
+            ExpressionTextBox.Text = saved + " " + op;
         }
 
         private void equalBtn_click(object sender, RoutedEventArgs e)
@@ -68,7 +68,7 @@ namespace CalculatorAppTest
                     ResultTextBox.Text = (saved / tempNum).ToString();
                     break;
             }
-            InputTextBox.Text = saved + " " + op + " " + tempNum + " =";
+            ExpressionTextBox.Text = saved + " " + op + " " + tempNum + " =";
         }
 
         private void dotBtn_click(object sender, RoutedEventArgs e)
@@ -97,7 +97,7 @@ namespace CalculatorAppTest
         //전체 계산 기록 초기화 버튼 c 클릭 함수
         private void cBtn_Click(object sender, RoutedEventArgs e)
         {
-            InputTextBox.Text = "";
+            ExpressionTextBox.Text = "";
             ResultTextBox.Text="0";
              saved = 0;
              op = string.Empty;

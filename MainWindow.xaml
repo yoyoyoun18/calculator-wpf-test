@@ -20,7 +20,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="InputTextBox" Grid.Row="0" Grid.ColumnSpan="4" FontSize="24" TextAlignment="Right" VerticalAlignment="Center" Margin="10,10,10,5"/>
+        <TextBox x:Name="ExpressionTextBox" Grid.Row="0" Grid.ColumnSpan="4" FontSize="24" TextAlignment="Right" VerticalAlignment="Center" Margin="10,10,10,5"/>
         <TextBox x:Name="ResultTextBox" Grid.Row="1" Grid.ColumnSpan="4" FontSize="36" TextAlignment="Right" VerticalAlignment="Center" Margin="10,5,10,10" IsReadOnly="True"/>
 
         <Button Content="C" Click="cBtn_Click" Grid.Row="2" Grid.Column="0"/>
