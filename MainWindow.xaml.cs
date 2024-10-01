@@ -24,6 +24,9 @@ namespace CalculatorAppTest
             InitializeComponent();
         }
 
+        /*
+        숫자 버튼 클릭시 해당 값이  
+         */
         private void numBtn_click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
@@ -44,6 +47,31 @@ namespace CalculatorAppTest
             Button btn = sender as Button;  
             op = btn?.Content.ToString();
             InputTextBox.Text = saved + " " + op;
+        }
+
+        private void equalBtn_click(object sender, RoutedEventArgs e)
+        {
+            double tempNum = double.Parse(ResultTextBox.Text);
+
+            switch(op)
+            {
+                case "+":
+                    ResultTextBox.Text = (saved + tempNum).ToString();
+                    break;
+
+                case "-":
+                    ResultTextBox.Text = (saved - tempNum).ToString();
+                    break;
+
+                case "*":
+                    ResultTextBox.Text = (saved * tempNum).ToString();
+                    break;
+
+                case "/":
+                    ResultTextBox.Text = (saved / tempNum).ToString();
+                    break;
+            }
+            InputTextBox.Text = saved + " " + op + " " + tempNum + " =";
         }
     }
 }
