@@ -21,6 +21,16 @@ namespace CalculatorAppTest
             InitializeComponent();
         }
 
-        
+        private void numBtn_click(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            if (ResultTextBox.Text == "0")
+            {
+                ResultTextBox.Text = btn?.Content.ToString();
+            }
+            else {
+                ResultTextBox.Text += btn?.Content.ToString();
+            }
+        }
     }
 }
