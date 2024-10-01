@@ -82,5 +82,10 @@ namespace CalculatorAppTest
                 ResultTextBox.Text += ".";
             }
         }
+
+        private void plusMinusBtn_click(object sender, RoutedEventArgs e)
+        {
+            ResultTextBox.Text = (-double.Parse(ResultTextBox.Text)).ToString();
+        }
     }
 }

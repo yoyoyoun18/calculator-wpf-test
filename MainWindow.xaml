@@ -11,6 +11,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -46,5 +47,7 @@
         <Button Content="0" Click="numBtn_click" Grid.Row="6" Grid.Column="1"/>
         <Button Content="=" Click="equalBtn_click" Grid.Row="6" Grid.Column="2"/>
         <Button Content="+" Click="opBtn_click" Grid.Row="6" Grid.Column="3"/>
+
+        <Button Content="±" Click="plusMinusBtn_click" Grid.Row="7" Grid.Column="1"/>
     </Grid>
 </Window>
