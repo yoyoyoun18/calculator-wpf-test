@@ -87,5 +87,21 @@ namespace CalculatorAppTest
         {
             ResultTextBox.Text = (-double.Parse(ResultTextBox.Text)).ToString();
         }
+
+        // 입력 값 초기화 버튼 ce 클릭 함수
+        private void ceBtn_click(object sender, RoutedEventArgs e)
+        {
+            ResultTextBox.Text = "0";
+        }
+
+        //전체 계산 기록 초기화 버튼 c 클릭 함수
+        private void cBtn_Click(object sender, RoutedEventArgs e)
+        {
+            InputTextBox.Text = "";
+            ResultTextBox.Text="0";
+             saved = 0;
+             op = string.Empty;
+             isOp = false;
+        }
     }
 }

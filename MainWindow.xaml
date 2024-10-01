@@ -23,8 +23,8 @@
         <TextBox x:Name="InputTextBox" Grid.Row="0" Grid.ColumnSpan="4" FontSize="24" TextAlignment="Right" VerticalAlignment="Center" Margin="10,10,10,5"/>
         <TextBox x:Name="ResultTextBox" Grid.Row="1" Grid.ColumnSpan="4" FontSize="36" TextAlignment="Right" VerticalAlignment="Center" Margin="10,5,10,10" IsReadOnly="True"/>
 
-        <Button Content="C" Grid.Row="2" Grid.Column="0"/>
-        <Button Content="CE" Grid.Row="2" Grid.Column="1"/>
+        <Button Content="C" Click="cBtn_Click" Grid.Row="2" Grid.Column="0"/>
+        <Button Content="CE" Click="ceBtn_click" Grid.Row="2" Grid.Column="1"/>
         <Button Content="⌫" Grid.Row="2" Grid.Column="2"/>
         <Button Content="%" Grid.Row="2" Grid.Column="3"/>
 
