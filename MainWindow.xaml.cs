@@ -107,6 +107,9 @@ namespace CalculatorAppTest
         private void backspaceBtn_click(object sender, RoutedEventArgs e)
         {
            ResultTextBox.Text = ResultTextBox.Text.Remove(ResultTextBox.Text.Length - 1);
+            if (ResultTextBox.Text.Length == 0) {
+                ResultTextBox.Text = "0";
+            }
         }
     }
 }
