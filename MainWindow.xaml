@@ -25,7 +25,7 @@
 
         <Button Content="C" Click="cBtn_Click" Grid.Row="2" Grid.Column="0"/>
         <Button Content="CE" Click="ceBtn_click" Grid.Row="2" Grid.Column="1"/>
-        <Button Content="⌫" Grid.Row="2" Grid.Column="2"/>
+        <Button Content="⌫" Click="backspaceBtn_click" Grid.Row="2" Grid.Column="2"/>
         <Button Content="%" Grid.Row="2" Grid.Column="3"/>
 
         <Button Content="7" Click="numBtn_click" Grid.Row="3" Grid.Column="0"/>

@@ -103,5 +103,10 @@ namespace CalculatorAppTest
              op = string.Empty;
              isOp = false;
         }
+        //백스페이스 버튼 클릭 함수
+        private void backspaceBtn_click(object sender, RoutedEventArgs e)
+        {
+           ResultTextBox.Text = ResultTextBox.Text.Remove(ResultTextBox.Text.Length - 1);
+        }
     }
 }
