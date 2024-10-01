@@ -16,6 +16,9 @@ namespace CalculatorAppTest
     /// </summary>
     public partial class MainWindow : Window
     {
+        double saved = 0;
+        string op = string.Empty;
+        bool isOp = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -24,13 +27,23 @@ namespace CalculatorAppTest
         private void numBtn_click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
-            if (ResultTextBox.Text == "0")
+            if (ResultTextBox.Text == "0" || isOp == true)
             {
                 ResultTextBox.Text = btn?.Content.ToString();
+                isOp = false;
             }
             else {
                 ResultTextBox.Text += btn?.Content.ToString();
             }
+        }
+
+        private void opBtn_click(object sender, RoutedEventArgs e)
+        {
+            isOp = true;
+            saved = double.Parse(ResultTextBox.Text);
+            Button btn = sender as Button;  
+            op = btn?.Content.ToString();
+            InputTextBox.Text = saved + " " + op;
         }
     }
 }

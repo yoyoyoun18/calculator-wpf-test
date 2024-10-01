@@ -30,21 +30,21 @@
         <Button Content="7" Click="numBtn_click" Grid.Row="3" Grid.Column="0"/>
         <Button Content="8" Click="numBtn_click" Grid.Row="3" Grid.Column="1"/>
         <Button Content="9" Click="numBtn_click" Grid.Row="3" Grid.Column="2"/>
-        <Button Content="/" Grid.Row="3" Grid.Column="3"/>
+        <Button Content="/" Click="opBtn_click" Grid.Row="3" Grid.Column="3"/>
 
         <Button Content="4" Click="numBtn_click" Grid.Row="4" Grid.Column="0"/>
         <Button Content="5" Click="numBtn_click" Grid.Row="4" Grid.Column="1"/>
         <Button Content="6" Click="numBtn_click" Grid.Row="4" Grid.Column="2"/>
-        <Button Content="*" Grid.Row="4" Grid.Column="3"/>
+        <Button Content="*" Click="opBtn_click" Grid.Row="4" Grid.Column="3"/>
 
         <Button Content="1" Click="numBtn_click" Grid.Row="5" Grid.Column="0"/>
         <Button Content="2" Click="numBtn_click" Grid.Row="5" Grid.Column="1"/>
         <Button Content="3" Click="numBtn_click" Grid.Row="5" Grid.Column="2"/>
-        <Button Content="-" Grid.Row="5" Grid.Column="3"/>
+        <Button Content="-" Click="opBtn_click" Grid.Row="5" Grid.Column="3"/>
 
         <Button Content="."  Grid.Row="6" Grid.Column="0"/>
         <Button Content="0" Click="numBtn_click" Grid.Row="6" Grid.Column="1"/>
         <Button Content="=" Grid.Row="6" Grid.Column="2"/>
-        <Button Content="+" Grid.Row="6" Grid.Column="3"/>
+        <Button Content="+" Click="opBtn_click" Grid.Row="6" Grid.Column="3"/>
     </Grid>
 </Window>
