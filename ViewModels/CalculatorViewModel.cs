@@ -106,8 +106,19 @@ namespace CalculatorAppTest.ViewModels
             }
             else if (_expressionList.Count > 0)
             {
-                _expressionList[_expressionList.Count - 1] = op;
-                Expression = Expression.Substring(0, Expression.Length - 2) + op + " ";
+                string lastItem = _expressionList[_expressionList.Count - 1];
+                if (lastItem == ")" || double.TryParse(lastItem, out _))
+                {
+                    // 마지막 항목이 닫는 괄호이거나 숫자인 경우에만 연산자를 추가합니다.
+                    _expressionList.Add(op);
+                    Expression += op + " ";
+                }
+                else if (lastItem != "(") // 여는 괄호 다음에는 연산자를 추가하지 않습니다.
+                {
+                    // 마지막 항목이 연산자인 경우, 해당 연산자를 새 연산자로 대체합니다.
+                    _expressionList[_expressionList.Count - 1] = op;
+                    Expression = Expression.Substring(0, Expression.Length - 2) + op + " ";
+                }
             }
         }
 
@@ -117,9 +128,12 @@ namespace CalculatorAppTest.ViewModels
         /// </summary>
         private void EqualsButtonClick()
         {
-            if (!_isNewNumber)
+            if (!_isNewNumber || _expressionList.Count > 0)
             {
-                _expressionList.Add(Result);
+                if (!_isNewNumber)
+                {
+                    _expressionList.Add(Result);
+                }
                 Expression += Result + " =";
 
                 try
@@ -130,6 +144,10 @@ namespace CalculatorAppTest.ViewModels
                 catch (DivideByZeroException)
                 {
                     Result = "Error: 0으로 나눌 수 없습니다.";
+                }
+                catch (InvalidOperationException ex)
+                {
+                    Result = $"Error: {ex.Message}";
                 }
                 catch (Exception)
                 {
