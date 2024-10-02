@@ -88,8 +88,8 @@
         <Button Content="-" Command="{Binding OperatorCommand}" CommandParameter="-" Grid.Row="5" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}"/>
         <Button Content="." Command="{Binding DotCommand}" Grid.Row="6" Grid.Column="0" Style="{StaticResource ButtonStyle}"/>
         <Button Content="0" Command="{Binding NumberCommand}" CommandParameter="0" Grid.Row="6" Grid.Column="1" Style="{StaticResource ButtonStyle}"/>
-        <Button Content="=" Command="{Binding EqualsCommand}" Grid.Row="6" Grid.Column="2" Grid.RowSpan="2" Style="{StaticResource EqualButtonStyle}"/>
+        <Button Content="±" Command="{Binding PlusMinusCommand}" Grid.Row="6" Grid.Column="2" Style="{StaticResource ButtonStyle}"/>
         <Button Content="+" Command="{Binding OperatorCommand}" CommandParameter="+" Grid.Row="6" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}"/>
-        <Button Content="±" Command="{Binding PlusMinusCommand}" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource ButtonStyle}"/>
+        <Button Content="=" Command="{Binding EqualsCommand}" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource EqualButtonStyle}"/>
     </Grid>
 </Window>
