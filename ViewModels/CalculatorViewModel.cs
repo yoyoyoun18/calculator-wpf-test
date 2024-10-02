@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
 using CalculatorAppTest.Models;
@@ -53,6 +54,7 @@ namespace CalculatorAppTest.ViewModels
         public ICommand ClearEntryCommand { get; }
         public ICommand ClearCommand { get; }
         public ICommand BackspaceCommand { get; }
+        public ICommand ParenthesisCommand { get; } // 새로 추가된 괄호 명령
 
         /// <summary>
         /// CalculatorViewModel의 생성자입니다.
@@ -69,6 +71,7 @@ namespace CalculatorAppTest.ViewModels
             ClearEntryCommand = new RelayCommand(ClearEntryButtonClick);
             ClearCommand = new RelayCommand(ClearButtonClick);
             BackspaceCommand = new RelayCommand(BackspaceButtonClick);
+            ParenthesisCommand = new RelayCommand<string>(ParenthesisButtonClick); // 새로 추가된 괄호 명령 초기화
         }
 
         /// <summary>
@@ -127,6 +130,10 @@ namespace CalculatorAppTest.ViewModels
                 catch (DivideByZeroException)
                 {
                     Result = "Error: 0으로 나눌 수 없습니다.";
+                }
+                catch (Exception)
+                {
+                    Result = "Error: 잘못된 수식입니다.";
                 }
 
                 _expressionList.Clear();
@@ -192,6 +199,27 @@ namespace CalculatorAppTest.ViewModels
             else
             {
                 Result = "0";
+                _isNewNumber = true;
+            }
+        }
+
+        /// <summary>
+        /// 괄호 버튼 클릭 시 호출되는 메서드입니다.
+        /// 여는 괄호 또는 닫는 괄호를 추가합니다.
+        /// </summary>
+        /// <param name="parenthesis">클릭된 괄호 ("(" 또는 ")")</param>
+        private void ParenthesisButtonClick(string parenthesis)
+        {
+            if (_isNewNumber)
+            {
+                _expressionList.Add(parenthesis);
+                Expression += parenthesis + " ";
+            }
+            else
+            {
+                _expressionList.Add(Result);
+                _expressionList.Add(parenthesis);
+                Expression += Result + " " + parenthesis + " ";
                 _isNewNumber = true;
             }
         }
