@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 using CalculatorAppTest.Models;
 
@@ -143,15 +144,18 @@ namespace CalculatorAppTest.ViewModels
                 }
                 catch (DivideByZeroException)
                 {
-                    Result = "Error: 0으로 나눌 수 없습니다.";
+                    MessageBox.Show("0으로 나눌 수 없습니다.", "에러", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Result = "Error";
                 }
                 catch (InvalidOperationException ex)
                 {
-                    Result = $"Error: {ex.Message}";
+                    MessageBox.Show(ex.Message, "에러", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Result = "Error";
                 }
                 catch (Exception)
                 {
-                    Result = "Error: 잘못된 수식입니다.";
+                    MessageBox.Show("잘못된 수식입니다.", "에러", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Result = "Error";
                 }
 
                 _expressionList.Clear();

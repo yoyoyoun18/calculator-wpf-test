@@ -8,8 +8,23 @@ namespace CalculatorAppTest.Models
     {
         public double CalculateExpression(List<string> expressionList)
         {
-            var postfixExpression = ConvertToPostfix(expressionList);
-            return EvaluatePostfix(postfixExpression);
+            try
+            {
+                var postfixExpression = ConvertToPostfix(expressionList);
+                return EvaluatePostfix(postfixExpression);
+            }
+            catch (DivideByZeroException)
+            {
+                throw new CalculatorException("0으로 나눌 수 없습니다.");
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new CalculatorException(ex.Message);
+            }
+            catch (Exception)
+            {
+                throw new CalculatorException("잘못된 수식입니다.");
+            }
         }
 
         private List<string> ConvertToPostfix(List<string> infixExpression)
@@ -39,7 +54,7 @@ namespace CalculatorAppTest.Models
                     }
                     else
                     {
-                        throw new InvalidOperationException("Mismatched parentheses");
+                        throw new CalculatorException("괄호가 맞지 않습니다.");
                     }
                 }
                 else // Operator
@@ -56,7 +71,7 @@ namespace CalculatorAppTest.Models
             {
                 if (operatorStack.Peek() == "(")
                 {
-                    throw new InvalidOperationException("Mismatched parentheses");
+                    throw new CalculatorException("괄호가 맞지 않습니다.");
                 }
                 postfix.Add(operatorStack.Pop());
             }
@@ -94,7 +109,7 @@ namespace CalculatorAppTest.Models
                 {
                     if (stack.Count < 2)
                     {
-                        throw new InvalidOperationException("Invalid expression");
+                        throw new CalculatorException("잘못된 수식입니다.");
                     }
                     double b = stack.Pop();
                     double a = stack.Pop();
@@ -109,17 +124,22 @@ namespace CalculatorAppTest.Models
                             break;
                         case "%": stack.Push(a % b); break;
                         default:
-                            throw new InvalidOperationException($"Unknown operator: {token}");
+                            throw new CalculatorException($"알 수 없는 연산자입니다: {token}");
                     }
                 }
             }
 
             if (stack.Count != 1)
             {
-                throw new InvalidOperationException("Invalid expression");
+                throw new CalculatorException("잘못된 수식입니다.");
             }
 
             return stack.Pop();
         }
+    }
+    // 에러 처리 메서드
+    public class CalculatorException : Exception
+    {
+        public CalculatorException(string message) : base(message) { }
     }
 }
