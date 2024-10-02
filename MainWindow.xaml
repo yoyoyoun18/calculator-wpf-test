@@ -73,23 +73,25 @@
         <Button Content="C" Command="{Binding ClearCommand}" Grid.Row="2" Grid.Column="0" Style="{StaticResource ButtonStyle}"/>
         <Button Content="CE" Command="{Binding ClearEntryCommand}" Grid.Row="2" Grid.Column="1" Style="{StaticResource ButtonStyle}"/>
         <Button Content="⌫" Command="{Binding BackspaceCommand}" Grid.Row="2" Grid.Column="2" Style="{StaticResource ButtonStyle}"/>
-        <Button Content="%" Command="{Binding OperatorCommand}" CommandParameter="%" Grid.Row="2" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}"/>
+        <Button Content="/" Command="{Binding OperatorCommand}" CommandParameter="/" Grid.Row="2" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}"/>
         <Button Content="7" Command="{Binding NumberCommand}" CommandParameter="7" Grid.Row="3" Grid.Column="0" Style="{StaticResource ButtonStyle}"/>
         <Button Content="8" Command="{Binding NumberCommand}" CommandParameter="8" Grid.Row="3" Grid.Column="1" Style="{StaticResource ButtonStyle}"/>
         <Button Content="9" Command="{Binding NumberCommand}" CommandParameter="9" Grid.Row="3" Grid.Column="2" Style="{StaticResource ButtonStyle}"/>
-        <Button Content="/" Command="{Binding OperatorCommand}" CommandParameter="/" Grid.Row="3" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}"/>
+        <Button Content="*" Command="{Binding OperatorCommand}" CommandParameter="*" Grid.Row="3" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}"/>
         <Button Content="4" Command="{Binding NumberCommand}" CommandParameter="4" Grid.Row="4" Grid.Column="0" Style="{StaticResource ButtonStyle}"/>
         <Button Content="5" Command="{Binding NumberCommand}" CommandParameter="5" Grid.Row="4" Grid.Column="1" Style="{StaticResource ButtonStyle}"/>
         <Button Content="6" Command="{Binding NumberCommand}" CommandParameter="6" Grid.Row="4" Grid.Column="2" Style="{StaticResource ButtonStyle}"/>
-        <Button Content="*" Command="{Binding OperatorCommand}" CommandParameter="*" Grid.Row="4" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}"/>
+        <Button Content="-" Command="{Binding OperatorCommand}" CommandParameter="-" Grid.Row="4" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}"/>
         <Button Content="1" Command="{Binding NumberCommand}" CommandParameter="1" Grid.Row="5" Grid.Column="0" Style="{StaticResource ButtonStyle}"/>
         <Button Content="2" Command="{Binding NumberCommand}" CommandParameter="2" Grid.Row="5" Grid.Column="1" Style="{StaticResource ButtonStyle}"/>
         <Button Content="3" Command="{Binding NumberCommand}" CommandParameter="3" Grid.Row="5" Grid.Column="2" Style="{StaticResource ButtonStyle}"/>
-        <Button Content="-" Command="{Binding OperatorCommand}" CommandParameter="-" Grid.Row="5" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}"/>
-        <Button Content="." Command="{Binding DotCommand}" Grid.Row="6" Grid.Column="0" Style="{StaticResource ButtonStyle}"/>
+        <Button Content="+" Command="{Binding OperatorCommand}" CommandParameter="+" Grid.Row="5" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}"/>
+        <Button Content="%" Command="{Binding OperatorCommand}" CommandParameter="%" Grid.Row="6" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}"/>
         <Button Content="0" Command="{Binding NumberCommand}" CommandParameter="0" Grid.Row="6" Grid.Column="1" Style="{StaticResource ButtonStyle}"/>
-        <Button Content="±" Command="{Binding PlusMinusCommand}" Grid.Row="6" Grid.Column="2" Style="{StaticResource ButtonStyle}"/>
-        <Button Content="+" Command="{Binding OperatorCommand}" CommandParameter="+" Grid.Row="6" Grid.Column="3" Style="{StaticResource OperatorButtonStyle}"/>
-        <Button Content="=" Command="{Binding EqualsCommand}" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource EqualButtonStyle}"/>
+        <Button Content="±" Command="{Binding PlusMinusCommand}" Grid.Row="6" Grid.Column="0" Style="{StaticResource ButtonStyle}"/>
+        <Button Content="." Command="{Binding DotCommand}" Grid.Row="6" Grid.Column="2" Style="{StaticResource ButtonStyle}"/>
+        <Button Content="(" Command="{Binding ParenthesisCommand}" CommandParameter="(" Grid.Row="7" Grid.Column="0" Style="{StaticResource ButtonStyle}"/>
+        <Button Content=")" Command="{Binding ParenthesisCommand}" CommandParameter=")" Grid.Row="7" Grid.Column="1" Style="{StaticResource ButtonStyle}"/>
+        <Button Content="=" Command="{Binding EqualsCommand}" Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource EqualButtonStyle}"/>
     </Grid>
 </Window>
