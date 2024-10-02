@@ -174,6 +174,7 @@ namespace CalculatorAppTest.ViewModels
                 }
 
                 _expressionList.Clear();
+                ClearButtonClick();
                 _isNewNumber = true;
             }
         }
