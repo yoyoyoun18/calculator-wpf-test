@@ -6,12 +6,20 @@ namespace CalculatorAppTest.Models
 {
     public class CalculatorModel
     {
+        private Queue<CalculationRecord> _calculationHistory = new Queue<CalculationRecord>();
+        private const int MaxHistoryCount = 5;
         public double CalculateExpression(List<string> expressionList)
         {
             try
             {
                 var postfixExpression = ConvertToPostfix(expressionList);
-                return EvaluatePostfix(postfixExpression);
+                double result = EvaluatePostfix(postfixExpression);
+
+                // 연산 기록 추가
+                string expression = string.Join(" ", expressionList);
+                AddToHistory(new CalculationRecord(expression, result));
+
+                return result;
             }
             catch (DivideByZeroException)
             {
@@ -25,6 +33,21 @@ namespace CalculatorAppTest.Models
             {
                 throw new CalculatorException("잘못된 수식입니다.");
             }
+        }
+
+        // 연산 기록을 추가하는 메서드 입니다.
+        private void AddToHistory(CalculationRecord record)
+        {
+            if (_calculationHistory.Count >= MaxHistoryCount)
+            {
+                _calculationHistory.Dequeue();
+            }
+            _calculationHistory.Enqueue(record);
+        }
+
+        public IEnumerable<CalculationRecord> GetHistory()
+        {
+            return _calculationHistory.Reverse();
         }
 
         private List<string> ConvertToPostfix(List<string> infixExpression)
@@ -57,7 +80,7 @@ namespace CalculatorAppTest.Models
                         throw new CalculatorException("괄호가 맞지 않습니다.");
                     }
                 }
-                else // Operator
+                else 
                 {
                     while (operatorStack.Count > 0 && Precedence(operatorStack.Peek()) >= Precedence(token))
                     {
@@ -79,6 +102,7 @@ namespace CalculatorAppTest.Models
             return postfix;
         }
 
+        // 연산자 우선순위를 정하는 메서드 입니다.
         private int Precedence(string op)
         {
             switch (op)
@@ -95,6 +119,7 @@ namespace CalculatorAppTest.Models
             }
         }
 
+        // 후위연산 수식 계산 메서드 입니다.
         private double EvaluatePostfix(List<string> postfixExpression)
         {
             var stack = new Stack<double>();
@@ -137,6 +162,24 @@ namespace CalculatorAppTest.Models
             return stack.Pop();
         }
     }
+
+    public class CalculationRecord
+    {
+        public string Expression { get; }
+        public double Result { get; }
+
+        public CalculationRecord(string expression, double result)
+        {
+            Expression = expression;
+            Result = result;
+        }
+
+        public override string ToString()
+        {
+            return $"{Expression} = {Result}";
+        }
+    }
+
     // 에러 처리 메서드
     public class CalculatorException : Exception
     {

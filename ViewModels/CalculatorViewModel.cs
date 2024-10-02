@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using CalculatorAppTest.Models;
+using System.Collections.ObjectModel;
 
 namespace CalculatorAppTest.ViewModels
 {
@@ -13,12 +14,12 @@ namespace CalculatorAppTest.ViewModels
     /// </summary>
     public class CalculatorViewModel : INotifyPropertyChanged
     {
-        // 코딩 컨벤션: private 필드를 나타내는 변수는 변수명 앞에 _를 붙였습니다.
         private readonly CalculatorModel _model;
         private string _result = "0";
         private string _expression = "";
         private bool _isNewNumber = true;
         private List<string> _expressionList = new List<string>();
+        private ObservableCollection<string> _history = new ObservableCollection<string>();
 
         /// <summary>
         /// 현재 계산 결과를 나타내는 속성입니다.
@@ -46,6 +47,19 @@ namespace CalculatorAppTest.ViewModels
             }
         }
 
+        /// <summary>
+        /// 계산 기록을 나타내는 속성입니다.
+        /// </summary>
+        public ObservableCollection<string> History
+        {
+            get => _history;
+            set
+            {
+                _history = value;
+                OnPropertyChanged(nameof(History));
+            }
+        }
+
         // 각 버튼에 대한 Command 속성들
         public ICommand NumberCommand { get; }
         public ICommand OperatorCommand { get; }
@@ -55,7 +69,8 @@ namespace CalculatorAppTest.ViewModels
         public ICommand ClearEntryCommand { get; }
         public ICommand ClearCommand { get; }
         public ICommand BackspaceCommand { get; }
-        public ICommand ParenthesisCommand { get; } // 새로 추가된 괄호 명령
+        public ICommand ParenthesisCommand { get; }
+        public ICommand UseHistoryCommand { get; }
 
         /// <summary>
         /// CalculatorViewModel의 생성자입니다.
@@ -72,7 +87,8 @@ namespace CalculatorAppTest.ViewModels
             ClearEntryCommand = new RelayCommand(ClearEntryButtonClick);
             ClearCommand = new RelayCommand(ClearButtonClick);
             BackspaceCommand = new RelayCommand(BackspaceButtonClick);
-            ParenthesisCommand = new RelayCommand<string>(ParenthesisButtonClick); // 새로 추가된 괄호 명령 초기화
+            ParenthesisCommand = new RelayCommand<string>(ParenthesisButtonClick);
+            UseHistoryCommand = new RelayCommand<string>(UseHistoryClick);
         }
 
         /// <summary>
@@ -110,13 +126,11 @@ namespace CalculatorAppTest.ViewModels
                 string lastItem = _expressionList[_expressionList.Count - 1];
                 if (lastItem == ")" || double.TryParse(lastItem, out _))
                 {
-                    // 마지막 항목이 닫는 괄호이거나 숫자인 경우에만 연산자를 추가합니다.
                     _expressionList.Add(op);
                     Expression += op + " ";
                 }
-                else if (lastItem != "(") // 여는 괄호 다음에는 연산자를 추가하지 않습니다.
+                else if (lastItem != "(")
                 {
-                    // 마지막 항목이 연산자인 경우, 해당 연산자를 새 연산자로 대체합니다.
                     _expressionList[_expressionList.Count - 1] = op;
                     Expression = Expression.Substring(0, Expression.Length - 2) + op + " ";
                 }
@@ -141,6 +155,7 @@ namespace CalculatorAppTest.ViewModels
                 {
                     double result = _model.CalculateExpression(_expressionList);
                     Result = result.ToString();
+                    AddToHistory($"{Expression} {Result}");
                 }
                 catch (DivideByZeroException)
                 {
@@ -242,6 +257,37 @@ namespace CalculatorAppTest.ViewModels
                 _expressionList.Add(Result);
                 _expressionList.Add(parenthesis);
                 Expression += Result + " " + parenthesis + " ";
+                _isNewNumber = true;
+            }
+        }
+
+        /// <summary>
+        /// 계산 기록에 새로운 항목을 추가합니다.
+        /// </summary>
+        /// <param name="calculation">추가할 계산 기록</param>
+        private void AddToHistory(string calculation)
+        {
+            History.Insert(0, calculation);
+            if (History.Count > 5)
+            {
+                History.RemoveAt(5);
+            }
+        }
+
+        /// <summary>
+        /// 계산 기록 항목을 클릭했을 때 호출되는 메서드입니다.
+        /// 선택한 계산 기록을 현재 수식으로 설정합니다.
+        /// </summary>
+        /// <param name="historyItem">선택된 계산 기록 항목</param>
+        private void UseHistoryClick(string historyItem)
+        {
+            string[] parts = historyItem.Split('=');
+            if (parts.Length == 2)
+            {
+                Expression = parts[0].Trim();
+                Result = parts[1].Trim();
+                _expressionList.Clear();
+                _expressionList.AddRange(Expression.Split(' '));
                 _isNewNumber = true;
             }
         }
