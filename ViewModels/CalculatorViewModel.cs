@@ -5,9 +5,12 @@ using CalculatorAppTest.Models;
 
 namespace CalculatorAppTest.ViewModels
 {
+    /// <summary>
+    /// 계산기의 비즈니스 로직을 처리하는 ViewModel 클래스입니다.
+    /// MVVM 패턴을 따르며, View와 Model 사이의 중재자 역할을 합니다.
+    /// </summary>
     public class CalculatorViewModel : INotifyPropertyChanged
     {
-
         // 코딩 컨벤션: private 필드를 나타내는 변수는 변수명 앞에 _를 붙였습니다.
         private readonly CalculatorModel _model;
         private string _result = "0";
@@ -15,6 +18,9 @@ namespace CalculatorAppTest.ViewModels
         private bool _isNewNumber = true;
         private List<string> _expressionList = new List<string>();
 
+        /// <summary>
+        /// 현재 계산 결과를 나타내는 속성입니다.
+        /// </summary>
         public string Result
         {
             get => _result;
@@ -25,6 +31,9 @@ namespace CalculatorAppTest.ViewModels
             }
         }
 
+        /// <summary>
+        /// 현재 입력된 전체 수식을 나타내는 속성입니다.
+        /// </summary>
         public string Expression
         {
             get => _expression;
@@ -35,6 +44,7 @@ namespace CalculatorAppTest.ViewModels
             }
         }
 
+        // 각 버튼에 대한 Command 속성들
         public ICommand NumberCommand { get; }
         public ICommand OperatorCommand { get; }
         public ICommand EqualsCommand { get; }
@@ -44,6 +54,10 @@ namespace CalculatorAppTest.ViewModels
         public ICommand ClearCommand { get; }
         public ICommand BackspaceCommand { get; }
 
+        /// <summary>
+        /// CalculatorViewModel의 생성자입니다.
+        /// 모든 Command 객체를 초기화합니다.
+        /// </summary>
         public CalculatorViewModel()
         {
             _model = new CalculatorModel();
@@ -57,6 +71,10 @@ namespace CalculatorAppTest.ViewModels
             BackspaceCommand = new RelayCommand(BackspaceButtonClick);
         }
 
+        /// <summary>
+        /// 숫자 버튼 클릭 시 호출되는 메서드입니다.
+        /// </summary>
+        /// <param name="number">클릭된 숫자</param>
         private void NumberButtonClick(string number)
         {
             if (_isNewNumber)
@@ -70,6 +88,10 @@ namespace CalculatorAppTest.ViewModels
             }
         }
 
+        /// <summary>
+        /// 연산자 버튼 클릭 시 호출되는 메서드입니다.
+        /// </summary>
+        /// <param name="op">클릭된 연산자</param>
         private void OperatorButtonClick(string op)
         {
             if (!_isNewNumber)
@@ -86,6 +108,10 @@ namespace CalculatorAppTest.ViewModels
             }
         }
 
+        /// <summary>
+        /// 등호(=) 버튼 클릭 시 호출되는 메서드입니다.
+        /// 현재까지의 수식을 계산하고 결과를 표시합니다.
+        /// </summary>
         private void EqualsButtonClick()
         {
             if (!_isNewNumber)
@@ -108,6 +134,9 @@ namespace CalculatorAppTest.ViewModels
             }
         }
 
+        /// <summary>
+        /// 소수점(.) 버튼 클릭 시 호출되는 메서드입니다.
+        /// </summary>
         private void DotButtonClick()
         {
             if (!Result.Contains("."))
@@ -117,6 +146,9 @@ namespace CalculatorAppTest.ViewModels
             }
         }
 
+        /// <summary>
+        /// 양수/음수 전환(+/-) 버튼 클릭 시 호출되는 메서드입니다.
+        /// </summary>
         private void PlusMinusButtonClick()
         {
             if (double.TryParse(Result, out double number))
@@ -125,12 +157,20 @@ namespace CalculatorAppTest.ViewModels
             }
         }
 
+        /// <summary>
+        /// CE(Clear Entry) 버튼 클릭 시 호출되는 메서드입니다.
+        /// 현재 입력된 숫자만 지웁니다.
+        /// </summary>
         private void ClearEntryButtonClick()
         {
             Result = "0";
             _isNewNumber = true;
         }
 
+        /// <summary>
+        /// C(Clear) 버튼 클릭 시 호출되는 메서드입니다.
+        /// 모든 입력과 계산 내용을 초기화합니다.
+        /// </summary>
         private void ClearButtonClick()
         {
             Expression = "";
@@ -139,6 +179,10 @@ namespace CalculatorAppTest.ViewModels
             _isNewNumber = true;
         }
 
+        /// <summary>
+        /// Backspace 버튼 클릭 시 호출되는 메서드입니다.
+        /// 현재 입력된 숫자의 마지막 자리를 지웁니다.
+        /// </summary>
         private void BackspaceButtonClick()
         {
             if (Result.Length > 1)
@@ -154,12 +198,21 @@ namespace CalculatorAppTest.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// 속성 변경을 통지하는 메서드입니다.
+        /// </summary>
+        /// <param name="propertyName">변경된 속성의 이름</param>
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
+    /// <summary>
+    /// 제네릭 RelayCommand 클래스입니다.
+    /// 매개변수가 있는 Command를 구현할 때 사용합니다.
+    /// </summary>
+    /// <typeparam name="T">Command 매개변수의 타입</typeparam>
     public class RelayCommand<T> : ICommand
     {
         private readonly Action<T> _execute;
@@ -182,6 +235,10 @@ namespace CalculatorAppTest.ViewModels
         }
     }
 
+    /// <summary>
+    /// 매개변수가 없는 RelayCommand 클래스입니다.
+    /// 매개변수가 필요 없는 Command를 구현할 때 사용합니다.
+    /// </summary>
     public class RelayCommand : ICommand
     {
         private readonly Action _execute;
